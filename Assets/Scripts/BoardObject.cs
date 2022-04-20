@@ -78,7 +78,7 @@ public class BoardObject : MonoBehaviour
     }
 
     void SaveBoard(){
-        string jsonFile = Application.dataPath + "/board.json";
+        string jsonFile = Application.persistentDataPath + "/board.json";
         string json = JsonUtility.ToJson(this.board);
         File.WriteAllText(jsonFile, json);
     }

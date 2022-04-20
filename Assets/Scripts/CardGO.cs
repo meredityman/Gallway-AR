@@ -44,7 +44,7 @@ public class CardGO : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(site){
+        if(site) {
             this.transform.position = site.transform.position;
             this.transform.rotation = site.transform.rotation;
         }
@@ -53,7 +53,7 @@ public class CardGO : MonoBehaviour
     private void OnTriggerEnter(Collider other){
         var site = other.GetComponentInParent<DevSiteGO>();
 
-        if(site){
+        if (site) {
             if(site.TryAttach(this)){
                 this.site = site;
             }
@@ -62,7 +62,7 @@ public class CardGO : MonoBehaviour
     private void OnTriggerStay(Collider other){
         var site = other.GetComponentInParent<DevSiteGO>();
 
-        if(site){
+        if (site) {
             if(site.TryAttach(this)){
                 this.site = site;
                 mat.color = c_docked;
