@@ -12,4 +12,17 @@ public class InstantiateGroundPlaneOnlyOnce : MonoBehaviour
 	        listenerBehaviour.enabled = false;
 	    }
     }
+
+    public void performHitTestWithNormalizedCoordinates(Vector2 screenPos)
+    {
+        float x = Mathf.Clamp01(screenPos.x / Screen.width);
+        float y = Mathf.Clamp01(screenPos.y / Screen.height);
+        var listenerBehaviour = GetComponent<PlaneFinderBehaviour>();
+        listenerBehaviour.PerformHitTest(new Vector2(x, y));
+    }
+
+    public void logPlaneInstantiated() 
+    {
+    	Debug.Log("Ground plane is instantiated");
+    }
 }

@@ -44,7 +44,7 @@ public class BoardObject : MonoBehaviour
         // Setup board
         var boardPlane = transform.Find("Anchors/Plane");
         boardPlane.transform.localScale = new Vector3(board.Properties.boardSize.x * (float)1e-4, 1.0f, board.Properties.boardSize.y * (float)1e-4);
-
+        
         // Creates Sites parent object
         Transform sitesTransform = transform.Find("Sites");
         if(transform.Find("Sites")){
@@ -101,9 +101,9 @@ public class BoardObject : MonoBehaviour
                 string zoneName = site.getZoneName();
 
                 foreach(Development dev in board.DevOptions){
-                    Debug.Log(dev.name + ", " +  card.name);
+                    //Debug.Log(dev.name + ", " +  card.name);
                     if(dev.name == card.devName){
-                        Debug.Log("Here");
+                        //Debug.Log("Here");
                         for( int i_impact = 0; i_impact < board.DevImpacts.Length; i_impact++){
                             DevelopmentImpact impact = board.DevImpacts[i_impact];
                             float i_score = dev.scores[(i_impact * board.DevZones.Length) + zoneNameToIndex[zoneName] ];
