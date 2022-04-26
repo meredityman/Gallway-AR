@@ -91,7 +91,6 @@ public class CardsObject : MonoBehaviour
 
             // add the Default Observer Event Handler to the newly created game object
             targetImageObject.gameObject.AddComponent<DefaultObserverEventHandler>();
-            targetImageObject.gameObject.AddComponent<CardTargetGO>();
             // targetImageObject.gameObject.transform.localScale = new Vector3(printedTargetSize, 1.0f, printedTargetSize);
 
            
