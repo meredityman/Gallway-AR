@@ -98,7 +98,8 @@ public class CardsObject : MonoBehaviour
             // Put into the tree
             cardGO.transform.SetParent(cardsTransform);
             cardGO.GetComponent<CardGO>().target = targetImageObject.gameObject.transform;
-            targetImageObject.gameObject.transform.SetParent(cardTargetsTransform);
+            targetImageObject.gameObject.transform.SetParent(cardsTransform);
+            // targetImageObject.gameObject.transform.SetParent(cardTargetsTransform);
         }
 
         // GameObject.Find("Ground Plane Stage/Models").SetActive(false);

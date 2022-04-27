@@ -63,6 +63,9 @@ public class CardGO : MonoBehaviour
         // Image target position
         Vector3 targetPosition = target.transform.position; 
 
+        // The trackable poses (ImageTarget, CylinderTarget, MultiTarget, VuMark, ObjectTarget, ModelTarget, Anchor, DeviceTrackable) are now all reported in World Coordinate System.
+        //
+
         // Raycast intersection with y=0.0 plane
         Vector3 targetScreenPos = arCamera.GetComponent<Camera>().WorldToScreenPoint(targetPosition);
         Ray ray = arCamera.GetComponent<Camera>().ScreenPointToRay(targetScreenPos);
@@ -73,11 +76,11 @@ public class CardGO : MonoBehaviour
         // Vector3 targetOffset = target.transform.localPosition - arCamera.transform.position;
         // positionInPlane += targetOffset;
 
-        targetPosition.y = 0.0f;
+        // targetPosition.y = 0.0f;
 
         // Set rb position
-        // rb.position = IntersectionPos;
-        rb.position = targetPosition;
+        rb.position = IntersectionPos;
+        // rb.position = targetPosition;
 
         Vector3 rotInPlane = target.rotation.eulerAngles;
         rotInPlane.x = 0.0f;
