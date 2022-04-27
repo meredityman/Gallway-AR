@@ -51,41 +51,35 @@ public class CardGO : MonoBehaviour
     }
 
     // Update is called once per frame
-    void Update()
-    {
-        if(site) {
-            this.transform.position = site.transform.position;
-            this.transform.rotation = site.transform.rotation;
+    void Update()  {
+        if(target != null){
+
+            var status = target.GetComponent<DefaultObserverEventHandler>().StatusFilter;
+            
+            if(site){
+                switch (status){
+                    case  DefaultObserverEventHandler.TrackingStatusFilter.Tracked:
+                        this.transform.position = target.transform.position;
+                        this.transform.rotation = target.transform.rotation;
+                        break;
+                    case  DefaultObserverEventHandler.TrackingStatusFilter.Tracked_ExtendedTracked:
+                    case  DefaultObserverEventHandler.TrackingStatusFilter.Tracked_ExtendedTracked_Limited:
+                        this.transform.position = site.transform.position;
+                        this.transform.rotation = site.transform.rotation;
+                        break;
+                }
+            }
+            else {
+                switch (status){
+                    case  DefaultObserverEventHandler.TrackingStatusFilter.Tracked:
+                    case  DefaultObserverEventHandler.TrackingStatusFilter.Tracked_ExtendedTracked:
+                    case  DefaultObserverEventHandler.TrackingStatusFilter.Tracked_ExtendedTracked_Limited:
+                        this.transform.position = target.transform.position;
+                        this.transform.rotation = target.transform.rotation;
+                        break;
+                }
+            }
         }
-    }
-
-    void FixedUpdate()  {
-        // Image target position
-        Vector3 targetPosition = target.transform.position; 
-
-        // The trackable poses (ImageTarget, CylinderTarget, MultiTarget, VuMark, ObjectTarget, ModelTarget, Anchor, DeviceTrackable) are now all reported in World Coordinate System.
-        //
-
-        // Raycast intersection with y=0.0 plane
-        Vector3 targetScreenPos = arCamera.GetComponent<Camera>().WorldToScreenPoint(targetPosition);
-        Ray ray = arCamera.GetComponent<Camera>().ScreenPointToRay(targetScreenPos);
-        float delta = ray.origin.y - 0.0f;
-        Vector3 dirNorm = ray.direction / ray.direction.y;
-        Vector3 IntersectionPos = ray.origin - dirNorm * delta;
-
-        // Vector3 targetOffset = target.transform.localPosition - arCamera.transform.position;
-        // positionInPlane += targetOffset;
-
-        // targetPosition.y = 0.0f;
-
-        // Set rb position
-        rb.position = IntersectionPos;
-        // rb.position = targetPosition;
-
-        Vector3 rotInPlane = target.rotation.eulerAngles;
-        rotInPlane.x = 0.0f;
-        rotInPlane.z = 0.0f;
-        rb.rotation = Quaternion.Euler(rotInPlane);
     }
 
     void OnGUI () {

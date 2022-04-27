@@ -13,6 +13,7 @@ public class CardsObject : MonoBehaviour
     public int NumCards = 42;
     Board board;
 
+    public GameObject trackedObjects;
 
     public Dictionary<string, Color[]> devTypeToColors;
 
@@ -35,30 +36,12 @@ public class CardsObject : MonoBehaviour
             };
         }
 
-        Transform cardTargetsTransform = GameObject.Find("CardTargets").transform;
-
-
-        Transform cardsTransform = transform.Find("Cards");
-        if(transform.Find("Cards")){
-            Destroy(cardsTransform.gameObject);
-        }
-
-        GameObject cardsGO = new GameObject("Cards");
-        cardsTransform = cardsGO.transform;
-        cardsTransform.parent = transform;
-
         for( int i = 0; i < NumCards; i++ ) {
             Development dev = board.DevOptions[i % board.DevTypes.Length ];
 
             GameObject cardGO = Instantiate( Resources.Load("Prefabs/Card", typeof(GameObject)), transform, false) as GameObject;
             cardGO.name = String.Format("card_{0}_{1}", i, dev.type);
             cardGO.tag = CARD_TAG;
-
-            // float a = Mathf.PI * (((float)i  / NumCards) - 0.5f);
-            // cardGO.transform.position = transform.position +  new Vector3( Mathf.Sin(a), 0.0f, Mathf.Cos(a));
-            // cardGO.transform.rotation = Quaternion.Euler(
-            //     transform.rotation.eulerAngles +  new Vector3( 0.0f, Mathf.Rad2Deg *  a, 0.0f));
-
 
             cardGO.GetComponent<CardGO>().SetCard(dev, i, (float)1e-3 * board.Properties.cardSize, devTypeToColors[dev.type]);
 
@@ -73,12 +56,15 @@ public class CardsObject : MonoBehaviour
             // Create image target for the card
             string targetName = String.Format("targetImage_{0}_{1}", i, dev.type);
 
+#if UNITY_EDITOR
+            string fullFilePath = Application.dataPath + "/StreamingAssets" + String.Format("/Output/{0}.jpg", imageTargetFilename);       
+#elif UNITY_ANDROID
+            string fullFilePath = Application.persistentDataPath + String.Format("/Output/{0}.jpg", imageTargetFilename);   
+#elif UNITY_IOS
             string fullFilePath = Application.streamingAssetsPath + String.Format("/Output/{0}.jpg", imageTargetFilename);
-            
-            byte[] pngBytes = System.IO.File.ReadAllBytes(fullFilePath);
-            Texture2D texture = new Texture2D(10, 10);
-            texture.LoadImage(pngBytes);
+#endif    
 
+            Debug.Log("Loading Target: " + fullFilePath);
             var targetImageObject = VuforiaBehaviour.Instance.ObserverFactory.CreateImageTarget(
                 fullFilePath,
                 printedTargetSize,
@@ -88,14 +74,17 @@ public class CardsObject : MonoBehaviour
 
             // add the Default Observer Event Handler to the newly created game object
             targetImageObject.gameObject.AddComponent<DefaultObserverEventHandler>();
-            // targetImageObject.gameObject.transform.localScale = new Vector3(printedTargetSize, 1.0f, printedTargetSize);
-
-           
 
             // Put into the tree
-            cardGO.transform.SetParent(cardsTransform);
+            cardGO.transform.SetParent(this.transform);
             cardGO.GetComponent<CardGO>().target = targetImageObject.gameObject.transform;
-            targetImageObject.gameObject.transform.SetParent(cardsTransform);
+
+
+
+            targetImageObject.gameObject.transform.SetParent(trackedObjects.transform);
+
+
+            GameObject debugObj =  Instantiate( Resources.Load("Prefabs/TrackedDebug", typeof(GameObject)), targetImageObject.transform, false) as GameObject;
             // targetImageObject.gameObject.transform.SetParent(cardTargetsTransform);
         }
 

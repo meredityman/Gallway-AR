@@ -53,22 +53,25 @@ public class DevSiteGO : MonoBehaviour
     }
 
     public bool TryAttach(CardGO card){
-
         if(this.card){
             if( Vector3.Distance(transform.position, this.card.transform.position ) <
                 Vector3.Distance(transform.position, card.transform.position ) ){
                 return false;
             } 
-        }
+        } 
+        
         this.card = card;
         rend.enabled = false;
         return true;
+
     }
 
 
     public void Remove(CardGO card){
-        if(card == this.card)
+        if(card == this.card){
             this.card = null;
             rend.enabled = true;
+        }
+
     }
 }
