@@ -14,6 +14,7 @@ public class CardsObject : MonoBehaviour
     Board board;
 
     public GameObject trackedObjects;
+    public GameObject boardObject;
 
     public Dictionary<string, Color[]> devTypeToColors;
 
@@ -78,7 +79,7 @@ public class CardsObject : MonoBehaviour
             // Put into the tree
             cardGO.transform.SetParent(this.transform);
             cardGO.GetComponent<CardGO>().target = targetImageObject.gameObject.transform;
-
+            cardGO.GetComponent<CardGO>().board = boardObject.GetComponent<BoardObject>();
 
 
             targetImageObject.gameObject.transform.SetParent(trackedObjects.transform);

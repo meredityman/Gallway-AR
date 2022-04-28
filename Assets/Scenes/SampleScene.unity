@@ -3523,6 +3523,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   NumCards: 4
   trackedObjects: {fileID: 1342402214}
+  boardObject: {fileID: 1098960760}
 --- !u!4 &2058002942 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: bd58a6c3404a6471fb9ffa654c95d1b2, type: 3}

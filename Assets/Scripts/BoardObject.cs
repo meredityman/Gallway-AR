@@ -77,7 +77,62 @@ public class BoardObject : MonoBehaviour
 
     }
 
-    void SaveBoard(){
+    public DevSiteGO getClosestSite(Vector3 cardPosition) 
+    {
+        // DevSiteGO closestSite;
+
+        foreach( DevSiteGO site in devSites){
+            if (Vector3.Distance(site.transform.position, cardPosition) < board.Properties.siteAttachDistance)
+            {
+                return site;
+            }
+        }
+
+        return null;
+    }
+
+            // // For 6x6 Board
+        // public Nullable<int> getClosestSiteIndex(Vector3 position)
+        // {
+        //     // Out of board
+        //     if (Mathf.Abs(position.x) > this.Properties.boardSize.x * 0.5f * (float)1e-3 || Mathf.Abs(position.y) > this.Properties.boardSize.y * 0.5f * (float)1e-3)
+        //     {
+        //         return null;
+        //     }
+
+        //     float smallestDistance = 10000;
+        //     int startIndex = 0;
+        //     int closestIndex = 0;
+            
+        //     if (position.x < 0.0f && position.y < 0.0f) { startIndex = 0; }        // BL
+        //     else if (position.x < 0.0f && position.y < 0.0f) { startIndex = 3; }   // TL
+        //     else if (position.x < 0.0f && position.y < 0.0f) { startIndex = 18; }  // BR
+        //     else if (position.x > 0.0f && position.y > 0.0f) { startIndex = 21; }  // TR
+       
+        //     for( int i = 0; i < 3; i++)
+        //     {
+        //         for( int j = 0; j < 3; j++) 
+        //         {
+        //             int index = startIndex + j + i * 3;
+        //             float dist = Vector3.Distance(new Vector3this.DevSites[index].position, position);
+
+        //             if (dist < smallestDistance)
+        //             {
+        //                 closestIndex = index;
+        //                 smallestDistance = dist;
+        //             }
+        //         }
+        //     }
+
+        //     if (smallestDistance < this.Properties.siteAttachDistance) {
+        //         return closestIndex;
+        //     }
+
+        //     return null;
+        // }
+
+    void SaveBoard()
+    {
         string jsonFile = Application.persistentDataPath + "/board.json";
         string json = JsonUtility.ToJson(this.board);
         File.WriteAllText(jsonFile, json);

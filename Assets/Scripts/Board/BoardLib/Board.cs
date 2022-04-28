@@ -12,12 +12,14 @@ namespace BoardLib
         public string name;
         public Vector2 boardSize;
         public Vector2 cardSize;
+        public float siteAttachDistance;
 
-        public BoardProperties(string name, Vector2 boardSize, Vector2 cardSize)
+        public BoardProperties(string name, Vector2 boardSize, Vector2 cardSize, float siteAttachDistance)
         {
             this.name = name;
             this.boardSize = boardSize;
             this.cardSize  = cardSize;
+            this.siteAttachDistance = siteAttachDistance;
         }
     }
 
@@ -114,17 +116,60 @@ namespace BoardLib
         public Development[] DevOptions;
         public Site[] DevSites;
         public Card[] Cards;
+        public float siteAttachDistance;
+
+        // // For 6x6 Board
+        // public Nullable<int> getClosestSiteIndex(Vector3 position)
+        // {
+        //     // Out of board
+        //     if (Mathf.Abs(position.x) > this.Properties.boardSize.x * 0.5f * (float)1e-3 || Mathf.Abs(position.y) > this.Properties.boardSize.y * 0.5f * (float)1e-3)
+        //     {
+        //         return null;
+        //     }
+
+        //     float smallestDistance = 10000;
+        //     int startIndex = 0;
+        //     int closestIndex = 0;
+            
+        //     if (position.x < 0.0f && position.y < 0.0f) { startIndex = 0; }        // BL
+        //     else if (position.x < 0.0f && position.y < 0.0f) { startIndex = 3; }   // TL
+        //     else if (position.x < 0.0f && position.y < 0.0f) { startIndex = 18; }  // BR
+        //     else if (position.x > 0.0f && position.y > 0.0f) { startIndex = 21; }  // TR
+       
+        //     for( int i = 0; i < 3; i++)
+        //     {
+        //         for( int j = 0; j < 3; j++) 
+        //         {
+        //             int index = startIndex + j + i * 3;
+        //             float dist = Vector3.Distance(new Vector3this.DevSites[index].position, position);
+
+        //             if (dist < smallestDistance)
+        //             {
+        //                 closestIndex = index;
+        //                 smallestDistance = dist;
+        //             }
+        //         }
+        //     }
+
+        //     if (smallestDistance < this.Properties.siteAttachDistance) {
+        //         return closestIndex;
+        //     }
+
+        //     return null;
+        // }
     }
 
     class BoardFactory{
         public static Board getDefaultBoard()
         {
+            // Board board = new Board();
             Board board = new Board();
 
             board.Properties = new BoardProperties(
                 "Default Board",
                 new Vector2(594, 841), // A1
-                new Vector2(74, 74)   // A7
+                new Vector2(74, 74),   // A7
+                (float)1e-3 * 74 // Site attach distance
             );
 
             // Rules
@@ -272,8 +317,7 @@ namespace BoardLib
                 new Site( new Vector2(5 * xSep + xOff, 5 * ySep + yOff), board.DevZones[2].name )
             };
 
-
-        board.Cards = new Card[]{
+            board.Cards = new Card[]{
                 new Card( "Exclusive Housing"   ),
                 new Card( "Exclusive Housing"   ),
                 new Card( "Low Density Housing" ),
@@ -312,7 +356,7 @@ namespace BoardLib
                 new Card( "Energy (Renewable)"  ),
                 new Card( "Active transport"    ),
                 new Card( "Active transport"    )
-        };
+            };
 
         return board;
 
