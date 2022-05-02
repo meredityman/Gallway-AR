@@ -193,9 +193,10 @@ namespace BoardLib
             const int N_DevType = 3;
             board.DevTypes = new DevelopmentType[N_DevType]
             {
-                new DevelopmentType( "Housing"       , new Color(0.588f, 0.898f ,0.455f), new Color(0.243f, 0.62f,  0.082f) ),
-                new DevelopmentType( "Services"      , new Color(0.243f, 0.62f,  0.082f), new Color(0.722f, 0.459f, 0.094f) ),
-                new DevelopmentType( "Infrastructure", new Color(0.627f, 0.408f, 0.757f), new Color(0.337f, 0.086f, 0.482f    ) )
+                // new DevelopmentType( "Housing"       , new Color(0.588f, 0.898f ,0.455f), new Color(0.243f, 0.62f,  0.082f) ),
+                new DevelopmentType( "Housing"       , new Color(0.588f, 0.898f ,0.455f), new Color(0.105f, 0.266f,  0.035f) ),
+                new DevelopmentType( "Services"      , new Color(0.0f, 0.188f,  0.950f), new Color(0.722f, 0.459f, 0.094f) ),
+                new DevelopmentType( "Infrastructure", new Color(0.627f, 0.408f, 0.757f), new Color(0.337f, 0.086f, 0.482f) )
             };
 
 // *** Primary color:
@@ -204,7 +205,9 @@ namespace BoardLib
 //    shade 1 = #BAF1A3 = rgb(186,241,163) = rgba(186,241,163,1) = rgb0(0.729,0.945,0.639)
 //    shade 2 = #96E574 = rgb(150,229,116) = rgba(150,229,116,1) = rgb0(0.588,0.898,0.455)
 //    shade 3 = #5AC12F = rgb( 90,193, 47) = rgba( 90,193, 47,1) = rgb0(0.353,0.757,0.184)
-//    shade 4 = #3E9E15 = rgb( 62,158, 21) = rgba( 62,158, 21,1) = rgb0(0.243,0.62,0.082)
+//    shade 4 = #1B4409 = rgb( 27, 68, 9)  = rgba( 27, 68, 9,1) = rgb0(0.105,0.266,0.035)
+//    shade 5 = #0030cf = rgb( 0, 48, 207)  = rgba( 0, 48, 207,1) = rgb0(0.0,0.188,0.811)
+//    replaced: shade 4 = #3E9E15 = rgb( 62,158, 21) = rgba( 62,158, 21,1) = rgb0(0.243,0.62,0.082)
 
 // *** Secondary color (1):
 

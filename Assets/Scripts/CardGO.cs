@@ -5,6 +5,7 @@ using UnityEngine;
 using TMPro;
 
 using BoardLib;
+using StateLib;
 
 public class CardGO : MonoBehaviour
 {
@@ -51,11 +52,9 @@ public class CardGO : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()  
     {
-        if(target != null){
+        if(target != null) {
             var status = target.GetComponent<DefaultObserverEventHandler>().StatusFilter;
             
-            DevSiteGO closestSite = board.getClosestSite(target.transform.position);
-
             if(site) {
                 switch (status){
                     case  DefaultObserverEventHandler.TrackingStatusFilter.Tracked:
@@ -69,7 +68,7 @@ public class CardGO : MonoBehaviour
                         break;
                 }
             } else {
-                switch (status){
+                switch (status) {
                     case  DefaultObserverEventHandler.TrackingStatusFilter.Tracked:
                     case  DefaultObserverEventHandler.TrackingStatusFilter.Tracked_ExtendedTracked:
                     case  DefaultObserverEventHandler.TrackingStatusFilter.Tracked_ExtendedTracked_Limited:
@@ -79,16 +78,23 @@ public class CardGO : MonoBehaviour
                 }
             }
 
-            if (closestSite != null)
+            if (board && board.stateManager.isIn(StateName.Cards))
             {
-                if(closestSite != site) {
-                    Debug.Log(closestSite.name);
+                DevSiteGO closestSite = board.getClosestSite(target.transform.position);
+
+                if (closestSite != null)
+                {
+                    if(closestSite != site) {
+                        this.LeaveSite(site);
+                        this.EnterSite(closestSite);
+
+                        // Possibly disable target, once card is inside the site.
+                    }
+                } else {
                     this.LeaveSite(site);
-                    this.EnterSite(closestSite);
                 }
-            } else {
-                this.LeaveSite(site);
             }
+
         }
     }
 
