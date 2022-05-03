@@ -25,6 +25,7 @@ public class CardGO : MonoBehaviour
     Material mat;
 
     private GameObject arCamera;
+    private bool canBeAttached = false;
     
     // Start is called before the first frame update
     void Start()
@@ -36,6 +37,16 @@ public class CardGO : MonoBehaviour
         mat.color = c_notDocked;
 
         arCamera = GameObject.Find("ARCamera");
+    }
+
+    void OnEnable()
+    {
+        StateManager.OnStateChange += HandleWorldStateChange;
+    }
+
+    void OnDisable()
+    {
+        StateManager.OnStateChange -= HandleWorldStateChange;
     }
 
 
@@ -56,7 +67,7 @@ public class CardGO : MonoBehaviour
             var status = target.GetComponent<DefaultObserverEventHandler>().StatusFilter;
             
             if(site) {
-                switch (status){
+                switch (status) {
                     case  DefaultObserverEventHandler.TrackingStatusFilter.Tracked:
                         this.transform.position = target.transform.position;
                         this.transform.rotation = target.transform.rotation;
@@ -78,7 +89,7 @@ public class CardGO : MonoBehaviour
                 }
             }
 
-            if (board && board.stateManager.isIn(StateName.Cards))
+            if (this.canBeAttached)
             {
                 DevSiteGO closestSite = board.getClosestSite(target.transform.position);
 
@@ -89,6 +100,7 @@ public class CardGO : MonoBehaviour
                         this.EnterSite(closestSite);
 
                         // Possibly disable target, once card is inside the site.
+                        this.canBeAttached = false;
                     }
                 } else {
                     this.LeaveSite(site);
@@ -100,13 +112,13 @@ public class CardGO : MonoBehaviour
 
     void OnGUI () 
     {
-        if (index == 0) 
-        {
-            GUI.Label (new Rect (0,250,100,100), String.Format("AR camera: {0}", arCamera.transform.position ) );
-            GUI.Label (new Rect (0,350,100,100), String.Format("Camera Euler: {0}", arCamera.transform.rotation.eulerAngles ) );
-            GUI.Label (new Rect (0,100 + 50 * index, 100,50), String.Format("Card {1} Pos: {0}", transform.position, index) );
-            GUI.Label (new Rect (0,150 + 50 * index, 100,50), String.Format("Card {1} Local Pos: {0}", transform.localPosition, index) );
-        }
+        // if (index == 0) 
+        // {
+        //     GUI.Label (new Rect (0,250,100,100), String.Format("AR camera: {0}", arCamera.transform.position ) );
+        //     GUI.Label (new Rect (0,350,100,100), String.Format("Camera Euler: {0}", arCamera.transform.rotation.eulerAngles ) );
+        //     GUI.Label (new Rect (0,100 + 50 * index, 100,50), String.Format("Card {1} Pos: {0}", transform.position, index) );
+        //     GUI.Label (new Rect (0,150 + 50 * index, 100,50), String.Format("Card {1} Local Pos: {0}", transform.localPosition, index) );
+        // }
     }
 
     private void EnterSite(DevSiteGO site)
@@ -127,32 +139,15 @@ public class CardGO : MonoBehaviour
         }
     }
 
-    // private void OnTriggerEnter(Collider other){
-    //     var site = other.GetComponentInParent<DevSiteGO>();
-
-    //     if (site) {
-    //         if(site.TryAttach(this)){
-    //             this.site = site;
-    //         }
-    //     }
-    // }   
-    // private void OnTriggerStay(Collider other){
-    //     var site = other.GetComponentInParent<DevSiteGO>();
-
-    //     if (site) {
-    //         if(site.TryAttach(this)){
-    //             this.site = site;
-    //             mat.color = c_docked;
-    //         }
-    //     }
-    // }   
-
-    // private void OnTriggerExit(Collider other){
-    //     var site = other.GetComponentInParent<DevSiteGO>();
-    //     if(site){
-    //         site.Remove(this);
-    //         this.site = null;
-    //         mat.color = c_notDocked;
-    //     }
-    // }   
+    private void HandleWorldStateChange(StateManager.State newState)
+    {
+        if(newState.name == StateName.Cards)
+        {
+            this.canBeAttached = true;
+        }
+        else
+        {
+            this.canBeAttached = false;
+        }
+    } 
 }

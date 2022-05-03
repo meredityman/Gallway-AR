@@ -11,8 +11,6 @@ using StateLib;
 public class BoardObject : MonoBehaviour
 {
     Board board;
-    public StateManager stateManager;
-
     List<DevSiteGO> devSites;
     TextMeshProUGUI textMesh;
     int numDockedCards = 0;
@@ -79,9 +77,8 @@ public class BoardObject : MonoBehaviour
             devSites.Add(siteGO.GetComponent<DevSiteGO>());
         }
 
-        // Create state manager, set to INIT state.
-        stateManager = new StateManager();
-        Debug.Log(stateManager.activeState);
+        //
+        scores = new Dictionary<DevelopmentImpact, float>();
     }
 
     public DevSiteGO getClosestSite(Vector3 cardPosition) 
@@ -98,6 +95,23 @@ public class BoardObject : MonoBehaviour
         return null;
     }
 
+    public string getScoreText()
+    {
+        string scoresStr = "";
+        if (numDockedCards < requiredNumberOfCards)
+        {
+            scoresStr = string.Format("{0} / {1}", numDockedCards, requiredNumberOfCards);
+        }
+        else
+        {
+            foreach(var pair in scores){
+                scoresStr += string.Format("{0} : {1}\n", pair.Key.name, pair.Value);
+            }
+        }
+
+        return scoresStr;
+    }
+
     void SaveBoard()
     {
         Debug.Log("Saving board.json");
@@ -106,11 +120,14 @@ public class BoardObject : MonoBehaviour
         File.WriteAllText(jsonFile, json);
     }
 
+    public bool IsBoardFull()
+    {
+        return numDockedCards == requiredNumberOfCards;
+    }
+
     // Update is called once per frame
     void Update()
     {
-
-        scores = new Dictionary<DevelopmentImpact, float>();
         foreach( DevelopmentImpact i in board.DevImpacts){
             scores[i] = 0.0f;
         }
@@ -118,7 +135,7 @@ public class BoardObject : MonoBehaviour
         numDockedCards = 0;
         foreach( DevSiteGO site in devSites){
             CardGO card = site.getCard();
-            if(card) {
+            if (card) {
                 numDockedCards++;
 
                 string zoneName = site.getZoneName();
@@ -141,21 +158,12 @@ public class BoardObject : MonoBehaviour
         }
 
 
-        string scoresStr = "";
-        foreach(var pair in scores){
-            scoresStr += string.Format("{0} : {1}\n", pair.Key.name, pair.Value);
-        }
+        // string scoresStr = "";
+        // foreach(var pair in scores){
+        //     scoresStr += string.Format("{0} : {1}\n", pair.Key.name, pair.Value);
+        // }
 
-        textMesh.text = string.Format("c: {0}\n{1}", numDockedCards, scoresStr);
-    }
-
-    public void handleUIClick()
-    {	
-    	Debug.Log("Button clicked");
-    	this.stateManager.goToNextState();
-
-    	Debug.Log(this.stateManager.getCurrentState());
-
+        textMesh.text = string.Format("c: {0}\n{1}", numDockedCards, this.getScoreText());
     }
 
 }
