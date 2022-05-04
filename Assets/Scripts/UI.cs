@@ -12,12 +12,12 @@ public class UI : MonoBehaviour
     public GameObject scoreGO;
     public GameObject buttonGO;
     public GameObject instructionsGO;
-
-    TextMeshProUGUI instructionsTextMesh;
-	TextMeshProUGUI scoreTextMesh;
-    Transform button;
-    TextMeshProUGUI buttonTextMesh;
     public BoardObject board;
+
+    public TextMeshProUGUI instructionsTextMesh;
+    public TextMeshProUGUI scoreTextMesh;
+    public Transform button;
+    public TextMeshProUGUI buttonTextMesh;
 
     void OnEnable()
     {
@@ -25,9 +25,6 @@ public class UI : MonoBehaviour
         StateManager.OnStateChange += UpdateUIText;
         
         // 
-        buttonTextMesh = buttonGO.GetComponent<TextMeshProUGUI>();
-        instructionsTextMesh = instructionsGO.GetComponent<TextMeshProUGUI>(); 
-        scoreTextMesh = scoreGO.GetComponent<TextMeshProUGUI>(); 
     }
 
     void OnDisable()
@@ -37,7 +34,15 @@ public class UI : MonoBehaviour
 
     void UpdateUIText(StateManager.State newState)
     {
+
+        buttonTextMesh = buttonGO.GetComponent<TextMeshProUGUI>();
+        instructionsTextMesh = instructionsGO.GetComponent<TextMeshProUGUI>(); 
+        scoreTextMesh = scoreGO.GetComponent<TextMeshProUGUI>(); 
+
     	instructionsTextMesh.text = (string)newState.instructionsText;
+        buttonTextMesh.text = (string)newState.buttonText;
+
+        //  NULL obj reference wtf?...
 
         // Update button
         if (string.IsNullOrEmpty(newState.buttonText))
@@ -47,7 +52,6 @@ public class UI : MonoBehaviour
         else
         {
             buttonGO.SetActive(true);
-            buttonTextMesh.text = newState.buttonText;
         }
 
         if (newState.name == StateName.Score)

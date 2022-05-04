@@ -80,6 +80,7 @@ public class CardsObject : MonoBehaviour
             cardGO.transform.SetParent(this.transform);
             cardGO.GetComponent<CardGO>().target = targetImageObject.gameObject.transform;
             cardGO.GetComponent<CardGO>().board = boardObject.GetComponent<BoardObject>();
+            cardGO.transform.position = new Vector3(10.0f, 0.0f, 10.0f); 
 
 
             targetImageObject.gameObject.transform.SetParent(trackedObjects.transform);

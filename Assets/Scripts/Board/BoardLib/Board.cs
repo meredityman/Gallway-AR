@@ -168,8 +168,9 @@ namespace BoardLib
             board.Properties = new BoardProperties(
                 "Default Board",
                 new Vector2(594, 841), // A1
-                new Vector2(74, 74),   // A7
-                (float)1e-3 * 74 // Site attach distance
+                // new Vector2(74, 74),   // A7
+                new Vector2(85, 85),   // A7
+                (float)1e-3 * 85 // Site attach distance
             );
 
             // Rules
