@@ -16,7 +16,6 @@ public class UI : MonoBehaviour
 
     public TextMeshProUGUI instructionsTextMesh;
     public TextMeshProUGUI scoreTextMesh;
-    public Transform button;
     public TextMeshProUGUI buttonTextMesh;
 
     void OnEnable()
@@ -34,10 +33,15 @@ public class UI : MonoBehaviour
 
     void UpdateUIText(StateManager.State newState)
     {
-
-        buttonTextMesh = buttonGO.GetComponent<TextMeshProUGUI>();
+        Debug.Log(this);
+        Debug.Log(this.buttonGO);
+        buttonTextMesh = buttonGO.transform.Find("ButtonCaption").GetComponent<TextMeshProUGUI>();
         instructionsTextMesh = instructionsGO.GetComponent<TextMeshProUGUI>(); 
         scoreTextMesh = scoreGO.GetComponent<TextMeshProUGUI>(); 
+
+        Debug.Log(buttonTextMesh);
+        Debug.Log(instructionsTextMesh);
+        Debug.Log(scoreTextMesh);
 
     	instructionsTextMesh.text = (string)newState.instructionsText;
         buttonTextMesh.text = (string)newState.buttonText;
