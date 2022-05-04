@@ -240,23 +240,23 @@ namespace BoardLib
             board.DevOptions = new Development[]
             {
             // Housing
-                //                                                                                                 Com                Soc                Ind
-                //                                                                                             1    2    3      1   2    3       1    2    3
-                new Development( "Exclusive Housing"   , board.DevTypes[0].name, new float[N_Zones * N_DevImpact]{ 50,  50,  50,    50,  50,  50,    50,  50,  50   }),
-                new Development( "Low Density Housing" , board.DevTypes[0].name, new float[N_Zones * N_DevImpact]{ 50,  50,  50,    50,  50,  50,    50,  50,  50   }),
-                new Development( "High Density Housing", board.DevTypes[0].name, new float[N_Zones * N_DevImpact]{ 50,  50,  50,    50,  50,  50,    50,  50,  50   }),
+                //                                                                                                      Com                Soc                Ind
+                //                                                                                                  1    2    3      1   2    3       1    2    3
+                new Development( "Exclusive Housing"   , board.DevTypes[0].name, new float[N_Zones * N_DevImpact]{ 15,  50,  -5,    50,  40,  -5,    10,  50,  10   }),
+                new Development( "Low Density Housing" , board.DevTypes[0].name, new float[N_Zones * N_DevImpact]{ 15,  15,  -25,    5,  50,  10,   -50,   0,  30   }),
+                new Development( "High Density Housing", board.DevTypes[0].name, new float[N_Zones * N_DevImpact]{ 20,   0, -50,   -10,  50,   5,    10,  50,  40   }),
             // Services
-                //                                                                                       Com              Soc              Ind
-                //                                                                                   1    2    3      1   2    3       1    2    3
-                new Development( "Commercial"          , board.DevTypes[1].name, new float[N_Zones * N_DevImpact]{ 50,  50,  50,    50,  50,  50,    50,  50,  50   }),
-                new Development( "Education"           , board.DevTypes[1].name, new float[N_Zones * N_DevImpact]{ 50,  50,  50,    50,  50,  50,    50,  50,  50   }),
-                new Development( "Sport"               , board.DevTypes[1].name, new float[N_Zones * N_DevImpact]{ 50,  50,  50,    50,  50,  50,    50,  50,  50   }),
+                //                                                                                                      Com              Soc              Ind
+                //                                                                                                  1    2    3      1   2    3       1    2    3
+                new Development( "Commercial"          , board.DevTypes[1].name, new float[N_Zones * N_DevImpact]{ 10,  15, -15,    20,  40, -30,   -20,  10,  -5   }),
+                new Development( "Education"           , board.DevTypes[1].name, new float[N_Zones * N_DevImpact]{ 20,  10, -20,    10,  50, -40,    10,   5,  10   }),
+                new Development( "Sport"               , board.DevTypes[1].name, new float[N_Zones * N_DevImpact]{ 15,   5, -20,     2,  50, -40,   -10,  15,  10   }),
             // Infrastructure
-                //                                                                                               Com              Soc              Ind
-                //                                                                                           1    2    3      1   2    3       1    2    3
-                new Development( "Public Transport "   , board.DevTypes[2].name, new float[N_Zones * N_DevImpact]{ 50,  50,  50,    50,  50,  50,    50,  50,  50   }),
-                new Development( "Energy (Renewable)"  , board.DevTypes[2].name, new float[N_Zones * N_DevImpact]{ 50,  50,  50,    50,  50,  50,    50,  50,  50   }),
-                new Development( "Active transport"    , board.DevTypes[2].name, new float[N_Zones * N_DevImpact]{ 50,  50,  50,    50,  50,  50,    50,  50,  50   })
+                //                                                                                                      Com              Soc              Ind
+                //                                                                                                  1    2    3      1   2    3       1    2    3
+                new Development( "Public Transport "   , board.DevTypes[2].name, new float[N_Zones * N_DevImpact]{ 10,   5, -40,     5,  20, -50,   -20,   5, -10   }),
+                new Development( "Energy (Renewable)"  , board.DevTypes[2].name, new float[N_Zones * N_DevImpact]{ 15,   5, -30,     0,  10, -60,    30,  25,   5   }),
+                new Development( "Active transport"    , board.DevTypes[2].name, new float[N_Zones * N_DevImpact]{ 20,   5, -20,     0,  10, -70,   -20,   5, -10   })
             };
 
             // Board
