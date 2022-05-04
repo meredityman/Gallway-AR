@@ -57,17 +57,15 @@ public class CardsObject : MonoBehaviour
             // Create image target for the card
             string targetName = String.Format("targetImage_{0}_{1}", i, dev.type);
 
-#if UNITY_EDITOR
-            string fullFilePath = Application.dataPath + "/StreamingAssets" + String.Format("/Output/{0}.jpg", imageTargetFilename);       
-#elif UNITY_ANDROID
-            string fullFilePath = Application.persistentDataPath + String.Format("/Output/{0}.jpg", imageTargetFilename);   
-#elif UNITY_IOS
-            string fullFilePath = Application.streamingAssetsPath + String.Format("/Output/{0}.jpg", imageTargetFilename);
-#endif    
 
-            Debug.Log("Loading Target: " + fullFilePath);
+            string resourcePath = String.Format("Cards/{0}", imageTargetFilename);       
+
+            var texture = Resources.Load<Texture2D>( resourcePath);
+
+
+            Debug.Log("Loading Target: " + resourcePath);
             var targetImageObject = VuforiaBehaviour.Instance.ObserverFactory.CreateImageTarget(
-                fullFilePath,
+                texture,
                 printedTargetSize,
                 targetName
             );
