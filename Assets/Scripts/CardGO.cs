@@ -25,7 +25,7 @@ public class CardGO : MonoBehaviour
     Material mat;
 
     private GameObject arCamera;
-    private bool canBeAttached = false;
+    private bool canLeaveSite = true;
     
     // Start is called before the first frame update
     void Start()
@@ -60,11 +60,21 @@ public class CardGO : MonoBehaviour
         c_notDocked = colors[1];
     }
 
+    void HandleTargetFound()
+    {
+
+    }
+
     // Update is called once per frame
     void FixedUpdate()  
     {
         if(target != null) {
             var status = target.GetComponent<DefaultObserverEventHandler>().StatusFilter;
+
+            // if (status == DefaultObserverEventHandler.TrackingStatusFilter.Not_Observed)
+            // {
+
+            // }
             
             if(site) {
                 switch (status) {
@@ -89,23 +99,26 @@ public class CardGO : MonoBehaviour
                 }
             }
 
-            if (this.canBeAttached)
+
+            DevSiteGO closestSite = board.getClosestSite(target.transform.position);
+
+            if (closestSite != null)
             {
-                DevSiteGO closestSite = board.getClosestSite(target.transform.position);
-
-                if (closestSite != null)
-                {
-                    if(closestSite != site) {
+                if(closestSite != site) {
+                    if (this.canLeaveSite)
+                    {
                         this.LeaveSite(site);
-                        this.EnterSite(closestSite);
-
-                        // Possibly disable target, once card is inside the site.
-                        this.canBeAttached = false;
                     }
-                } else {
+
+                    this.EnterSite(closestSite);
+                }
+            } else {
+                if (this.canLeaveSite)
+                {
                     this.LeaveSite(site);
                 }
             }
+        
 
         }
     }
@@ -141,13 +154,13 @@ public class CardGO : MonoBehaviour
 
     private void HandleWorldStateChange(StateManager.State newState)
     {
-        if(newState.name == StateName.Cards)
+        if(newState.name == StateName.Cards || newState.name == StateName.Score)
         {
-            this.canBeAttached = true;
+            this.canLeaveSite = false;
         }
         else
         {
-            this.canBeAttached = false;
+            this.canLeaveSite = true;
         }
     } 
 }
