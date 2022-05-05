@@ -75,7 +75,7 @@ public class World : MonoBehaviour
                 cardsGO.SetActive(false);
                 break;
             case StateName.Board:
-                worldImageTarget.SetActive(false);
+                //worldImageTarget.SetActive(false);
                 boardGO.SetActive(true);
                 cardsGO.SetActive(true);
                 break;

@@ -49,9 +49,9 @@ public class CardsObject : MonoBehaviour
             string imageTargetFilename = String.Format("{0}_{1}", i.ToString().PadLeft(3, '0'), board.Cards[i].name);
 
             // Attach model
-            // GameObject.Find(String.Format("Models/{0}", imageTargetFilename)).transform.parent = cardGO.transform.Find("Geom/Model").transform; 
-            // var model = cardGO.transform.Find(String.Format("Geom/Model/{0}", imageTargetFilename));
-            // model.transform.localScale = Vector3.one;
+            GameObject.Find(String.Format("Models/{0}", imageTargetFilename)).transform.parent = cardGO.transform.Find("Geom/Model").transform; 
+            var model = cardGO.transform.Find(String.Format("Geom/Model/{0}", imageTargetFilename));
+            model.transform.localScale = new Vector3(0.085f, 0.085f, 0.085f);
             // model.GetComponent<MeshRenderer>().enabled = true;
 
             // Create image target for the card
