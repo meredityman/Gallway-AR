@@ -39,9 +39,9 @@ public class UI : MonoBehaviour
         instructionsTextMesh = instructionsGO.GetComponent<TextMeshProUGUI>(); 
         scoreTextMesh = scoreGO.GetComponent<TextMeshProUGUI>(); 
 
-        Debug.Log(buttonTextMesh);
+        // Debug.Log(buttonTextMesh);
         Debug.Log(instructionsTextMesh);
-        Debug.Log(scoreTextMesh);
+        Debug.Log(newState.instructionsText);
 
     	instructionsTextMesh.text = (string)newState.instructionsText;
         buttonTextMesh.text = (string)newState.buttonText;

@@ -85,10 +85,10 @@ namespace StateLib
 
 			this.activeState = StateName.Init;
 
-			// if (OnStateChange != null)
-			// {
-			// 	OnStateChange(getCurrentState());
-			// }
+			if (OnStateChange != null)
+			{
+				OnStateChange(getCurrentState());
+			}
 		}
 	}
 }
