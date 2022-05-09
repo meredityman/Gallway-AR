@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.Events;
 
 using Vuforia;
 
@@ -15,6 +17,7 @@ public class CardsObject : MonoBehaviour
 
     public GameObject trackedObjects;
     public GameObject boardObject;
+    public GameObject modelsObject;
 
     public Dictionary<string, Color[]> devTypeToColors;
 
@@ -37,6 +40,8 @@ public class CardsObject : MonoBehaviour
             };
         }
 
+        modelsObject.SetActive(true);
+
         for( int i = 0; i < NumCards; i++ ) {
             Development dev = board.DevOptions[i % board.DevTypes.Length ];
 
@@ -49,8 +54,9 @@ public class CardsObject : MonoBehaviour
             string imageTargetFilename = String.Format("{0}_{1}", i.ToString().PadLeft(3, '0'), board.Cards[i].name);
 
             // Attach model
-            // GameObject.Find(String.Format("Models/{0}", imageTargetFilename)).transform.parent = cardGO.transform.Find("Geom/Model").transform; 
-            // var model = cardGO.transform.Find(String.Format("Geom/Model/{0}", imageTargetFilename));
+            modelsObject.transform.Find(imageTargetFilename).transform.parent = cardGO.transform.Find("Geom/Model").transform; 
+            var model = cardGO.transform.Find(String.Format("Geom/Model/{0}", imageTargetFilename));
+            model.transform.localScale = Vector3.Scale(model.transform.localScale, new Vector3(printedTargetSize, printedTargetSize, printedTargetSize));
             
             // // model.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             // model.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
@@ -80,17 +86,24 @@ public class CardsObject : MonoBehaviour
             cardGO.transform.SetParent(this.transform);
             cardGO.GetComponent<CardGO>().target = targetImageObject.gameObject.transform;
             cardGO.GetComponent<CardGO>().board = boardObject.GetComponent<BoardObject>();
-            cardGO.transform.position = new Vector3(10.0f, 0.0f, 10.0f); 
+            
+            DefaultObserverEventHandler handler;
+            handler = targetImageObject.gameObject.GetComponent<DefaultObserverEventHandler>();
+            handler.OnTargetFound = new UnityEvent();
+            handler.OnTargetLost = new UnityEvent();
+            // Debug.Log("handler component");
+            // Debug.Log(targetImageObject.gameObject.GetComponent<DefaultObserverEventHandler>().OnTargetFound);
+            handler.OnTargetFound.AddListener(cardGO.GetComponent<CardGO>().HandleTargetFound);
+            handler.OnTargetLost.AddListener(cardGO.GetComponent<CardGO>().HandleTargetLost);
 
 
             targetImageObject.gameObject.transform.SetParent(trackedObjects.transform);
-
+            // targetImageObject.gameObject.GetComponent<>();
 
             GameObject debugObj =  Instantiate( Resources.Load("Prefabs/TrackedDebug", typeof(GameObject)), targetImageObject.transform, false) as GameObject;
-            // targetImageObject.gameObject.transform.SetParent(cardTargetsTransform);
         }
 
-        // GameObject.Find("Ground Plane Stage/Models").SetActive(false);
+        modelsObject.SetActive(false);
     }
 
 

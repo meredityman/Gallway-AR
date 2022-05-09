@@ -10,7 +10,7 @@ namespace StateLib
 	{
 		Init = 0, 
 		Board = 1, 
-		Cards = 2, 
+		Cards = 2,
 		Score = 3
 	};
 
@@ -75,7 +75,7 @@ namespace StateLib
 		{
 			State state_init = new State(StateName.Init, "Please point the camera to the board marker.", "Place board");
 			State state_board = new State(StateName.Board, "When you feel good about your arrangement press the button.", "Evaluate board");
-			State state_cards = new State(StateName.Cards, "Slowly move camera over each card to secure them in their positions.", "");
+			State state_cards = new State(StateName.Cards, "Slowly move camera over each card to secure them in their positions.", "View the score!");
 			State state_score = new State(StateName.Score, "", "Restart");
 
 			states.Add(StateName.Init,  state_init);

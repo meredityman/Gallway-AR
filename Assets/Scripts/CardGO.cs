@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using Vuforia;
 
 using BoardLib;
 using StateLib;
@@ -24,8 +25,10 @@ public class CardGO : MonoBehaviour
 
     Material mat;
 
-    private GameObject arCamera;
-    private bool canLeaveSite = true;
+    private bool isLocked = false;
+    private bool canBecomeLocked = false;
+    private bool isTrackingTarget = false;
+    private GameObject buildingModel;
     
     // Start is called before the first frame update
     void Start()
@@ -36,17 +39,28 @@ public class CardGO : MonoBehaviour
         mat = transform.Find("Geom/Quad").GetComponent<MeshRenderer>().material;
         mat.color = c_notDocked;
 
-        arCamera = GameObject.Find("ARCamera");
+        buildingModel = transform.Find("Geom/Model").gameObject;
+        buildingModel.SetActive(false);
+    }
+
+    public void HandleTargetFound()
+    {
+        isTrackingTarget = true;
+    }
+
+    public void HandleTargetLost()
+    {
+        isTrackingTarget = false;
     }
 
     void OnEnable()
     {
-        StateManager.OnStateChange += HandleWorldStateChange;
+        StateLib.StateManager.OnStateChange += HandleWorldStateChange;
     }
 
     void OnDisable()
     {
-        StateManager.OnStateChange -= HandleWorldStateChange;
+        StateLib.StateManager.OnStateChange -= HandleWorldStateChange;
     }
 
 
@@ -60,22 +74,12 @@ public class CardGO : MonoBehaviour
         c_notDocked = colors[1];
     }
 
-    void HandleTargetFound()
-    {
-
-    }
-
     // Update is called once per frame
     void FixedUpdate()  
     {
         if(target != null) {
             var status = target.GetComponent<DefaultObserverEventHandler>().StatusFilter;
 
-            // if (status == DefaultObserverEventHandler.TrackingStatusFilter.Not_Observed)
-            // {
-
-            // }
-            
             if(site) {
                 switch (status) {
                     case  DefaultObserverEventHandler.TrackingStatusFilter.Tracked:
@@ -89,49 +93,60 @@ public class CardGO : MonoBehaviour
                         break;
                 }
             } else {
-                switch (status) {
-                    case  DefaultObserverEventHandler.TrackingStatusFilter.Tracked:
-                    case  DefaultObserverEventHandler.TrackingStatusFilter.Tracked_ExtendedTracked:
-                    case  DefaultObserverEventHandler.TrackingStatusFilter.Tracked_ExtendedTracked_Limited:
-                        this.transform.position = target.transform.position;
-                        this.transform.rotation = target.transform.rotation;
-                        break;
+                if (isTrackingTarget)
+                {
+                    switch (status) {
+                        case  DefaultObserverEventHandler.TrackingStatusFilter.Tracked:
+                        case  DefaultObserverEventHandler.TrackingStatusFilter.Tracked_ExtendedTracked:
+                        case  DefaultObserverEventHandler.TrackingStatusFilter.Tracked_ExtendedTracked_Limited:
+                            this.transform.position = target.transform.position;
+                            this.transform.rotation = target.transform.rotation;
+                            break;
+                    }
                 }
             }
 
+            if (isLocked)
+            {
+                return;
+            }
 
             DevSiteGO closestSite = board.getClosestSite(target.transform.position);
 
             if (closestSite != null)
             {
                 if(closestSite != site) {
-                    if (this.canLeaveSite)
-                    {
-                        this.LeaveSite(site);
-                    }
-
+                    this.LeaveSite(site);
                     this.EnterSite(closestSite);
+
+                    // if (this.canBecomeLocked && !this.isLocked)
+                    // {
+                    //     this.isLocked = true;
+                    //     AnimateBuilding();
+                    // }
                 }
             } else {
-                if (this.canLeaveSite)
-                {
-                    this.LeaveSite(site);
-                }
+                this.LeaveSite(site);
             }
-        
 
+            if (this.site && this.canBecomeLocked && !this.isLocked)
+            {
+                this.isLocked = true;
+                AnimateBuilding();
+                DisableTarget();
+            }
         }
     }
 
-    void OnGUI () 
+    private void AnimateBuilding()
     {
-        // if (index == 0) 
-        // {
-        //     GUI.Label (new Rect (0,250,100,100), String.Format("AR camera: {0}", arCamera.transform.position ) );
-        //     GUI.Label (new Rect (0,350,100,100), String.Format("Camera Euler: {0}", arCamera.transform.rotation.eulerAngles ) );
-        //     GUI.Label (new Rect (0,100 + 50 * index, 100,50), String.Format("Card {1} Pos: {0}", transform.position, index) );
-        //     GUI.Label (new Rect (0,150 + 50 * index, 100,50), String.Format("Card {1} Local Pos: {0}", transform.localPosition, index) );
-        // }
+        this.buildingModel.SetActive(true);
+        LeanTween.scale( this.buildingModel, new Vector3(1.25f, 1.25f, 1.25f), 1f).setEase(LeanTweenType.easeInOutCirc).setLoopPingPong( 1 );
+    }
+
+    private void DisableTarget()
+    {
+       this.target.GetComponent<ImageTargetBehaviour>().enabled = false;
     }
 
     private void EnterSite(DevSiteGO site)
@@ -149,18 +164,21 @@ public class CardGO : MonoBehaviour
             site.Remove(this);
             this.site = null;
             mat.color = c_notDocked;
+            // this.buildingModel.SetActive(false);
         }
     }
 
-    private void HandleWorldStateChange(StateManager.State newState)
+    private void HandleWorldStateChange(StateLib.StateManager.State newState)
     {
         if(newState.name == StateName.Cards || newState.name == StateName.Score)
         {
-            this.canLeaveSite = false;
+            this.canBecomeLocked = true;
         }
         else
         {
-            this.canLeaveSite = true;
+            this.canBecomeLocked = false;
+            this.isLocked = false;
+            this.buildingModel.SetActive(false);
         }
     } 
 }

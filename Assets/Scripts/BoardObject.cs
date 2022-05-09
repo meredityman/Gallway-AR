@@ -3,6 +3,7 @@ using System.Collections;
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+
 using TMPro;
 
 using BoardLib;
@@ -12,7 +13,6 @@ public class BoardObject : MonoBehaviour
 {
     Board board;
     List<DevSiteGO> devSites;
-    TextMeshProUGUI textMesh;
     int numDockedCards = 0;
 
     Dictionary<DevelopmentImpact, float> scores;
@@ -24,8 +24,6 @@ public class BoardObject : MonoBehaviour
     // Start is called before the first frame update
     void OnEnable()
     {
-        textMesh = GameObject.Find("Canvas/Text (TMP)").GetComponent<TextMeshProUGUI>();
-
         // Get board
         board = BoardFactory.getDefaultBoard();
         SaveBoard();
@@ -95,6 +93,16 @@ public class BoardObject : MonoBehaviour
         return null;
     }
 
+    public float getBoardCompletionPercentage()
+    {
+        if (numDockedCards == requiredNumberOfCards)
+        {
+            return 1.0f;
+        }
+
+        return (float)(numDockedCards / requiredNumberOfCards);
+    }
+
     public string getScoreText()
     {
         string scoresStr = "";
@@ -157,13 +165,11 @@ public class BoardObject : MonoBehaviour
             }
         }
 
-
         // string scoresStr = "";
         // foreach(var pair in scores){
         //     scoresStr += string.Format("{0} : {1}\n", pair.Key.name, pair.Value);
         // }
 
-        textMesh.text = string.Format("c: {0}\n{1}", numDockedCards, this.getScoreText());
     }
 
 }
