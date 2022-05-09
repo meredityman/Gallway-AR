@@ -20,12 +20,8 @@ public class World : MonoBehaviour
     {   
         worldImageTarget = GameObject.Find("WorldImageTarget");
 
-        // Create state manager, set to INIT state.
+        // Create state manager, set to Init state.
         stateManager = new StateManager();
-        // stateManager.init();
-        Debug.Log(stateManager);
-        Debug.Log(stateManager == null);
-        Debug.Log(stateManager.activeState);
 
         // Subscribe to state change
         StateManager.OnStateChange += HandleStateChange;
@@ -73,23 +69,23 @@ public class World : MonoBehaviour
             case StateName.Init:
                 worldImageTarget.SetActive(true);
                 boardGO.SetActive(false);
-                cardsGO.SetActive(false);
+                // cardsGO.SetActive(false);
                 targetsGO.SetActive(true);
                 break;
             case StateName.Board:
                 //worldImageTarget.SetActive(false);
                 boardGO.SetActive(true);
-                cardsGO.SetActive(true);
+                // cardsGO.SetActive(true);
                 targetsGO.SetActive(true);
                 break;
             case StateName.Cards:
                 boardGO.SetActive(true);
-                cardsGO.SetActive(true);
+                // cardsGO.SetActive(true);
                 targetsGO.SetActive(true);
                 break;
             case StateName.Score:
                 boardGO.SetActive(true);
-                cardsGO.SetActive(true);
+                // cardsGO.SetActive(true);
                 targetsGO.SetActive(false);
                 break;
         }

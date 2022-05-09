@@ -153,6 +153,11 @@ public class CardGO : MonoBehaviour
        this.target.GetComponent<ImageTargetBehaviour>().enabled = false;
     }
 
+    private void EnableTarget()
+    {
+        this.target.GetComponent<ImageTargetBehaviour>().enabled = true;
+    }
+
     private void EnterSite(DevSiteGO site)
     {
         if (site) {
@@ -174,6 +179,11 @@ public class CardGO : MonoBehaviour
 
     private void HandleWorldStateChange(StateLib.StateManager.State newState)
     {
+        if(newState.name == StateName.Init)
+        {
+            EnableTarget();
+        }
+
         if(newState.name == StateName.Cards || newState.name == StateName.Score)
         {
             this.canBecomeLocked = true;
