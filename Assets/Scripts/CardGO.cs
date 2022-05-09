@@ -41,16 +41,20 @@ public class CardGO : MonoBehaviour
 
         buildingModel = transform.Find("Geom/Model").gameObject;
         buildingModel.SetActive(false);
+
+        gameObject.SetActive(false);
     }
 
     public void HandleTargetFound()
     {
         isTrackingTarget = true;
+        gameObject.SetActive(true);
     }
 
     public void HandleTargetLost()
     {
         isTrackingTarget = false;
+        // GameObject.SetActive(false);
     }
 
     void OnEnable()
