@@ -1,7 +1,8 @@
+using System;
 using System.IO;
 using System.Collections;
-using System;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 using TMPro;
@@ -20,6 +21,8 @@ public class BoardObject : MonoBehaviour
     public Dictionary<string, Color[]> siteZoneToColors;
 
     public int requiredNumberOfCards = 36;
+    
+    private string scoreKey;
 
     // Start is called before the first frame update
     void OnEnable()
@@ -100,7 +103,7 @@ public class BoardObject : MonoBehaviour
             return 1.0f;
         }
 
-        return (float)(numDockedCards / requiredNumberOfCards);
+        return (float)numDockedCards / (float)requiredNumberOfCards;
     }
 
     public string getScoreText()
@@ -116,6 +119,10 @@ public class BoardObject : MonoBehaviour
                 scoresStr += string.Format("{0} : {1}\n", pair.Key.name, pair.Value);
             }
         }
+
+        scoreKey = String.Join("", scores.OrderBy(obj => obj.Value).ToDictionary(obj => obj.Key.impactKey, obj => obj.Value).Keys.ToArray());
+        scoresStr += board.ScoreTexts[scoreKey];
+        Debug.Log(scoreKey);
 
         return scoresStr;
     }
@@ -148,10 +155,8 @@ public class BoardObject : MonoBehaviour
 
                 string zoneName = site.getZoneName();
 
-                foreach(Development dev in board.DevOptions){
-                    //Debug.Log(dev.name + ", " +  card.name);
+                foreach(Development dev in board.DevOptions) {
                     if(dev.name == card.devName){
-                        //Debug.Log("Here");
                         for( int i_impact = 0; i_impact < board.DevImpacts.Length; i_impact++){
                             DevelopmentImpact impact = board.DevImpacts[i_impact];
                             float i_score = dev.scores[(i_impact * board.DevZones.Length) + zoneNameToIndex[zoneName] ];
@@ -169,6 +174,9 @@ public class BoardObject : MonoBehaviour
         // foreach(var pair in scores){
         //     scoresStr += string.Format("{0} : {1}\n", pair.Key.name, pair.Value);
         // }
+
+        // scores.Values.ToList().Sort();
+        // var list = scores.Values.ToList();
 
     }
 

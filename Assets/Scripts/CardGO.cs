@@ -123,11 +123,12 @@ public class CardGO : MonoBehaviour
                     this.LeaveSite(site);
                     this.EnterSite(closestSite);
 
-                    // if (this.canBecomeLocked && !this.isLocked)
-                    // {
-                    //     this.isLocked = true;
-                    //     AnimateBuilding();
-                    // }
+                    if (this.canBecomeLocked && !this.isLocked)
+                    {
+                        this.isLocked = true;
+                        AnimateBuilding();
+                        DisableTarget();
+                    }
                 }
             } else {
                 this.LeaveSite(site);
@@ -151,11 +152,13 @@ public class CardGO : MonoBehaviour
     private void DisableTarget()
     {
        this.target.GetComponent<ImageTargetBehaviour>().enabled = false;
+       this.target.gameObject.SetActive(false);
     }
 
     private void EnableTarget()
     {
         this.target.GetComponent<ImageTargetBehaviour>().enabled = true;
+        this.target.gameObject.SetActive(true);
     }
 
     private void EnterSite(DevSiteGO site)
@@ -173,7 +176,6 @@ public class CardGO : MonoBehaviour
             site.Remove(this);
             this.site = null;
             mat.color = c_notDocked;
-            // this.buildingModel.SetActive(false);
         }
     }
 

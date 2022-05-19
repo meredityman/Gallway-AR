@@ -12,8 +12,8 @@ public class UI : MonoBehaviour
 {
     public GameObject scoreGO;
     public GameObject buttonGO;
-    public GameObject instructionsGO;
     public GameObject progressBarGO;
+    public GameObject hintGO;
     public BoardObject board;
 
     private TextMeshProUGUI instructionsTextMesh;
@@ -48,8 +48,8 @@ public class UI : MonoBehaviour
     void UpdateUIText(StateManager.State newState)
     {
         buttonTextMesh = buttonGO.transform.Find("ButtonCaption").GetComponent<TextMeshProUGUI>();
-        instructionsTextMesh = instructionsGO.GetComponent<TextMeshProUGUI>(); 
-        scoreTextMesh = scoreGO.GetComponent<TextMeshProUGUI>(); 
+        instructionsTextMesh = hintGO.transform.Find("InstructionsText").GetComponent<TextMeshProUGUI>(); 
+        scoreTextMesh = scoreGO.transform.Find("ScoreText").GetComponent<TextMeshProUGUI>(); 
 
     	instructionsTextMesh.text = (string)newState.instructionsText;
         buttonTextMesh.text = (string)newState.buttonText;
@@ -76,10 +76,14 @@ public class UI : MonoBehaviour
 
         if (newState.name == StateName.Score)
         {
+            hintGO.SetActive(false);
+            scoreGO.SetActive(true);
             scoreTextMesh.text = board.getScoreText();
         }
         else
         {
+            hintGO.SetActive(true);
+            scoreGO.SetActive(false);
             scoreTextMesh.text = "";
         }
     }

@@ -53,11 +53,12 @@ public class DevSiteGO : MonoBehaviour
     }
 
     public bool TryAttach(CardGO card){
-        if(this.card){
-            if( Vector3.Distance(transform.position, this.card.transform.position ) <
-                Vector3.Distance(transform.position, card.transform.position ) ){
-                return false;
-            } 
+        if(this.card) {
+            return false;
+            // if( Vector3.Distance(transform.position, this.card.transform.position ) <
+            //     Vector3.Distance(transform.position, card.transform.position ) ){
+            //     return false;
+            // } 
         } 
         
         this.card = card;

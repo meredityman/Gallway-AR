@@ -61,10 +61,12 @@ namespace BoardLib
     struct DevelopmentImpact
     {
         public string name;
+        public string impactKey;
 
-        public DevelopmentImpact(string name)
+        public DevelopmentImpact(string name, string impactKey)
         {
             this.name = name;
+            this.impactKey = impactKey;
         }
     }
 
@@ -116,7 +118,13 @@ namespace BoardLib
         public Development[] DevOptions;
         public Site[] DevSites;
         public Card[] Cards;
+        public Dictionary<string, string> ScoreTexts;
         public float siteAttachDistance;
+
+        // public string getScoreKey()
+        // {
+            
+        // }
 
         // // For 6x6 Board
         // public Nullable<int> getClosestSiteIndex(Vector3 position)
@@ -231,11 +239,39 @@ namespace BoardLib
             const int N_DevImpact = 3;
             board.DevImpacts = new DevelopmentImpact[N_DevImpact]
             {
-                new DevelopmentImpact( "Commercial"    ),
-                new DevelopmentImpact( "Social"        ),
-                new DevelopmentImpact( "Environmental" )
+                new DevelopmentImpact( "Commercial", "c"    ),
+                new DevelopmentImpact( "Social", "s"        ),
+                new DevelopmentImpact( "Environmental", "e" )
             };
 
+            /**
+            1. If commercial is greater than social and greater than environmental
+            2. If commercial is greater than social and less than environmental
+            3. If commercial is less than social and greater than environmental
+            4. If social is greater than commercial and greater than environmental
+            5. If social is greater than commercial and less than environmental
+            6. If environmental is greater than commercial and greater than social
+            7. If environmental is greater than commercial and less than social
+            8. If environmental is less than commercial and greater than social
+            **/
+            
+            // <--negative-values----0---positive---values---->
+            // C-S-E: 5. 6.
+            // E-C-S: 3. 4.
+            // S-E-C: 1. 8.
+            // E-S-C: 1.
+            // C-E-S: 4. 7.
+            // S-C-E: 2. 6.
+
+            board.ScoreTexts = new Dictionary<string, string>();
+            board.ScoreTexts.Add("cse", "Typical of development in the developed world. \nSerious questions to be asked regarding social and environmental sustainability.");
+            board.ScoreTexts.Add("ecs", "Good example of the most recent trend for development. \nWhile abiding by newer more climate aware policies, it does so with respect to commercial returns.");
+            board.ScoreTexts.Add("sec", "More a traditional form of settlement. \nHere the community element is strong, as is deference to its place.");
+            board.ScoreTexts.Add("esc", "An example of really good contemporary planning, recognising the climate imperative and placemaking above commercial return.");
+            board.ScoreTexts.Add("ces", "A good example of a planned settlement that while prioritising the commercial recognises the environmental imperative.");
+            board.ScoreTexts.Add("sce", "An example of what can be seen as previously centrally planned European countries. \nHere, the social is paramount, but the environment is not at all prioritised. ");
+            
+              
             // Cards
             board.DevOptions = new Development[]
             {
@@ -255,8 +291,8 @@ namespace BoardLib
                 //                                                                                                      Com              Soc              Ind
                 //                                                                                                  1    2    3      1   2    3       1    2    3
                 new Development( "Public Transport "   , board.DevTypes[2].name, new float[N_Zones * N_DevImpact]{ 10,   5, -40,     5,  20, -50,   -20,   5, -10   }),
-                new Development( "Energy (Renewable)"  , board.DevTypes[2].name, new float[N_Zones * N_DevImpact]{ 15,   5, -30,     0,  10, -60,    30,  25,   5   }),
-                new Development( "Active transport"    , board.DevTypes[2].name, new float[N_Zones * N_DevImpact]{ 20,   5, -20,     0,  10, -70,   -20,   5, -10   })
+                new Development( "Renewable Energy"  , board.DevTypes[2].name, new float[N_Zones * N_DevImpact]{ 15,   5, -30,     0,  10, -60,    30,  25,   5   }),
+                new Development( "Active Transport"    , board.DevTypes[2].name, new float[N_Zones * N_DevImpact]{ 20,   5, -20,     0,  10, -70,   -20,   5, -10   })
             };
 
             // Board
@@ -350,14 +386,14 @@ namespace BoardLib
                 new Card( "Sport"               ),
                 new Card( "Sport"               ),
 
-                new Card( "Public Transport "   ),
-                new Card( "Public Transport "   ),
-                new Card( "Public Transport "   ),
-                new Card( "Public Transport "   ),
-                new Card( "Energy (Renewable)"  ),
-                new Card( "Energy (Renewable)"  ),
-                new Card( "Energy (Renewable)"  ),
-                new Card( "Energy (Renewable)"  ),
+                new Card( "Public Transport"   ),
+                new Card( "Public Transport"   ),
+                new Card( "Public Transport"   ),
+                new Card( "Public Transport"   ),
+                new Card( "Renewable Energy"  ),
+                new Card( "Renewable Energy"  ),
+                new Card( "Renewable Energy"  ),
+                new Card( "Renewable Energy"  ),
                 new Card( "Active transport"    ),
                 new Card( "Active transport"    )
             };
