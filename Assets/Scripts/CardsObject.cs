@@ -43,7 +43,17 @@ public class CardsObject : MonoBehaviour
         modelsObject.SetActive(true);
 
         for( int i = 0; i < NumCards; i++ ) {
-            Development dev = board.DevOptions[i % board.DevTypes.Length ];
+
+            var type_name = board.Cards[i].devName;
+            Debug.Log("type_name: " + type_name);
+
+            Development dev = board.DevOptions[0];
+            for( int di = 0; di < board.DevOptions.Length; di++){
+                if( type_name == board.DevOptions[di].name){
+                    dev = board.DevOptions[di];
+                    break;
+                }
+            }
 
             GameObject cardGO = Instantiate( Resources.Load("Prefabs/Card", typeof(GameObject)), transform, false) as GameObject;
             cardGO.name = String.Format("card_{0}_{1}", i, dev.type);
