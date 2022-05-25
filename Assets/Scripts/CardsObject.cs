@@ -62,14 +62,12 @@ public class CardsObject : MonoBehaviour
             cardGO.GetComponent<CardGO>().SetCard(dev, i, (float)1e-3 * board.Properties.cardSize, devTypeToColors[dev.type]);
 
             string imageTargetFilename = String.Format("{0}_{1}", i.ToString().PadLeft(3, '0'), board.Cards[i].name);
-            Debug.Log(imageTargetFilename);
 
             // Attach model
             modelsObject.transform.Find(imageTargetFilename).transform.parent = cardGO.transform.Find("Geom/Model").transform; 
             var model = cardGO.transform.Find(String.Format("Geom/Model/{0}", imageTargetFilename));
-            Debug.Log(model);
             model.transform.localScale = Vector3.Scale(model.transform.localScale, new Vector3(printedTargetSize, printedTargetSize, printedTargetSize));
-            
+            model.transform.localRotation *= Quaternion.Euler(0, 180, 0);
             // // model.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             // model.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
             // model.GetComponent<MeshRenderer>().enabled = true;

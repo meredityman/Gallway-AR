@@ -43,6 +43,9 @@ public class CardGO : MonoBehaviour
         buildingModel.SetActive(false);
 
         gameObject.SetActive(false);
+        PositionOutOfView();
+        
+        StateLib.StateManager.OnStateChange += HandleWorldStateChange;
     }
 
     public void HandleTargetFound()
@@ -57,10 +60,10 @@ public class CardGO : MonoBehaviour
         // GameObject.SetActive(false);
     }
 
-    void OnEnable()
-    {
-        StateLib.StateManager.OnStateChange += HandleWorldStateChange;
-    }
+    // void OnEnable()
+    // {
+    //     StateLib.StateManager.OnStateChange += HandleWorldStateChange;
+    // }
 
     void OnDisable()
     {
@@ -97,17 +100,17 @@ public class CardGO : MonoBehaviour
                         break;
                 }
             } else {
-                if (isTrackingTarget)
-                {
-                    switch (status) {
-                        case  DefaultObserverEventHandler.TrackingStatusFilter.Tracked:
-                        case  DefaultObserverEventHandler.TrackingStatusFilter.Tracked_ExtendedTracked:
-                        case  DefaultObserverEventHandler.TrackingStatusFilter.Tracked_ExtendedTracked_Limited:
-                            this.transform.position = target.transform.position;
-                            this.transform.rotation = target.transform.rotation;
-                            break;
-                    }
-                }
+                // if (isTrackingTarget)
+                // {
+                //     switch (status) {
+                //         case  DefaultObserverEventHandler.TrackingStatusFilter.Tracked:
+                //         case  DefaultObserverEventHandler.TrackingStatusFilter.Tracked_ExtendedTracked:
+                //         case  DefaultObserverEventHandler.TrackingStatusFilter.Tracked_ExtendedTracked_Limited:
+                //             this.transform.position = target.transform.position;
+                //             this.transform.rotation = target.transform.rotation;
+                //             break;
+                //     }
+                // }
             }
 
             if (isLocked)
@@ -119,17 +122,23 @@ public class CardGO : MonoBehaviour
 
             if (closestSite != null)
             {
-                if(closestSite != site) {
+                if (!site)
+                {
+                    this.EnterSite(closestSite);
+                } 
+                else if (closestSite != site) 
+                {
                     this.LeaveSite(site);
                     this.EnterSite(closestSite);
-
-                    if (this.canBecomeLocked && !this.isLocked)
-                    {
-                        this.isLocked = true;
-                        AnimateBuilding();
-                        DisableTarget();
-                    }
                 }
+
+                
+                // if (this.canBecomeLocked && !this.isLocked)
+                // {
+                //     this.isLocked = true;
+                //     AnimateBuilding();
+                //     DisableTarget();
+                // }
             } else {
                 this.LeaveSite(site);
             }
@@ -141,6 +150,7 @@ public class CardGO : MonoBehaviour
                 DisableTarget();
             }
         }
+        // textMesh.text = string.Format("L: {0}\n canBL: {1}", this.isLocked, this.canBecomeLocked);
     }
 
     private void AnimateBuilding()
@@ -172,17 +182,24 @@ public class CardGO : MonoBehaviour
 
     private void LeaveSite(DevSiteGO site)
     {
-        if(site) {
+        if (site) {
             site.Remove(this);
             this.site = null;
             mat.color = c_notDocked;
         }
     }
 
+    private void PositionOutOfView()
+    {
+        this.target.transform.position = new Vector3(50.0f, 50.0f, 50.0f);
+        this.transform.position = new Vector3(50.0f, 50.0f, 50.0f);
+    }
+
     private void HandleWorldStateChange(StateLib.StateManager.State newState)
     {
         if(newState.name == StateName.Init)
-        {
+        {   
+            PositionOutOfView();
             EnableTarget();
         }
 

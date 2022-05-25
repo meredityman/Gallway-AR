@@ -52,6 +52,11 @@ public class DevSiteGO : MonoBehaviour
         
     }
 
+    public bool isOccupied()
+    {
+        return this.card != null;
+    }
+
     public bool TryAttach(CardGO card){
         if(this.card) {
             return false;

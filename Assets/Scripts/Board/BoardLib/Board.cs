@@ -178,7 +178,7 @@ namespace BoardLib
                 new Vector2(594, 841), // A1
                 // new Vector2(74, 74),   // A7
                 new Vector2(85, 85),   // A7
-                (float)1e-3 * 85 // Site attach distance
+                (float)1e-3 * 40 // Site attach distance
             );
 
             // Rules
@@ -310,6 +310,9 @@ namespace BoardLib
             // xOff -= ((6.0f * board.Properties.cardSize.x) + (5.0f * xSep)) * 0.5f;
             // yOff -= ((6.0f * board.Properties.cardSize.y) + (5.0f * ySep)) * 0.5f;
 
+            // Crossroads gaps
+            float xGap = xSep / 24.0f;
+            float yGap = xSep / 2.0f;
 
             xSep *= (float)1e-3;
             ySep *= (float)1e-3;
@@ -317,44 +320,47 @@ namespace BoardLib
             xOff *= (float)1e-3;
             yOff *= (float)1e-3;
 
+            xGap *= (float)1e-3;
+            yGap *= (float)1e-3;
+
 
             board.DevSites = new Site[] {
-                new Site( new Vector2(0 * xSep + xOff, 0 * ySep + yOff), board.DevZones[2].name ),
-                new Site( new Vector2(0 * xSep + xOff, 1 * ySep + yOff), board.DevZones[2].name ),
-                new Site( new Vector2(0 * xSep + xOff, 2 * ySep + yOff), board.DevZones[2].name ),
-                new Site( new Vector2(0 * xSep + xOff, 3 * ySep + yOff), board.DevZones[2].name ),
-                new Site( new Vector2(0 * xSep + xOff, 4 * ySep + yOff), board.DevZones[2].name ),
-                new Site( new Vector2(0 * xSep + xOff, 5 * ySep + yOff), board.DevZones[2].name ),//
-                new Site( new Vector2(1 * xSep + xOff, 0 * ySep + yOff), board.DevZones[2].name ),
-                new Site( new Vector2(1 * xSep + xOff, 1 * ySep + yOff), board.DevZones[1].name ),
-                new Site( new Vector2(1 * xSep + xOff, 2 * ySep + yOff), board.DevZones[1].name ),
-                new Site( new Vector2(1 * xSep + xOff, 3 * ySep + yOff), board.DevZones[1].name ),
-                new Site( new Vector2(1 * xSep + xOff, 4 * ySep + yOff), board.DevZones[1].name ),
-                new Site( new Vector2(1 * xSep + xOff, 5 * ySep + yOff), board.DevZones[2].name ),//
-                new Site( new Vector2(2 * xSep + xOff, 0 * ySep + yOff), board.DevZones[2].name ),
-                new Site( new Vector2(2 * xSep + xOff, 1 * ySep + yOff), board.DevZones[1].name ),
-                new Site( new Vector2(2 * xSep + xOff, 2 * ySep + yOff), board.DevZones[0].name ),
-                new Site( new Vector2(2 * xSep + xOff, 3 * ySep + yOff), board.DevZones[0].name ),
-                new Site( new Vector2(2 * xSep + xOff, 4 * ySep + yOff), board.DevZones[1].name ),
-                new Site( new Vector2(2 * xSep + xOff, 5 * ySep + yOff), board.DevZones[2].name ),//
-                new Site( new Vector2(3 * xSep + xOff, 0 * ySep + yOff), board.DevZones[2].name ),
-                new Site( new Vector2(3 * xSep + xOff, 1 * ySep + yOff), board.DevZones[1].name ),
-                new Site( new Vector2(3 * xSep + xOff, 2 * ySep + yOff), board.DevZones[0].name ),
-                new Site( new Vector2(3 * xSep + xOff, 3 * ySep + yOff), board.DevZones[0].name ),
-                new Site( new Vector2(3 * xSep + xOff, 4 * ySep + yOff), board.DevZones[1].name ),
-                new Site( new Vector2(3 * xSep + xOff, 5 * ySep + yOff), board.DevZones[2].name ),//
-                new Site( new Vector2(4 * xSep + xOff, 0 * ySep + yOff), board.DevZones[2].name ),
-                new Site( new Vector2(4 * xSep + xOff, 1 * ySep + yOff), board.DevZones[1].name ),
-                new Site( new Vector2(4 * xSep + xOff, 2 * ySep + yOff), board.DevZones[1].name ),
-                new Site( new Vector2(4 * xSep + xOff, 3 * ySep + yOff), board.DevZones[1].name ),
-                new Site( new Vector2(4 * xSep + xOff, 4 * ySep + yOff), board.DevZones[1].name ),
-                new Site( new Vector2(4 * xSep + xOff, 5 * ySep + yOff), board.DevZones[2].name ),//
-                new Site( new Vector2(5 * xSep + xOff, 0 * ySep + yOff), board.DevZones[2].name ),
-                new Site( new Vector2(5 * xSep + xOff, 1 * ySep + yOff), board.DevZones[2].name ),
-                new Site( new Vector2(5 * xSep + xOff, 2 * ySep + yOff), board.DevZones[2].name ),
-                new Site( new Vector2(5 * xSep + xOff, 3 * ySep + yOff), board.DevZones[2].name ),
-                new Site( new Vector2(5 * xSep + xOff, 4 * ySep + yOff), board.DevZones[2].name ),
-                new Site( new Vector2(5 * xSep + xOff, 5 * ySep + yOff), board.DevZones[2].name )
+                new Site( new Vector2(0 * xSep + xOff - xGap, 0 * ySep + yOff - yGap), board.DevZones[2].name ),
+                new Site( new Vector2(0 * xSep + xOff - xGap, 1 * ySep + yOff - yGap), board.DevZones[2].name ),
+                new Site( new Vector2(0 * xSep + xOff - xGap, 2 * ySep + yOff - yGap), board.DevZones[2].name ),
+                new Site( new Vector2(0 * xSep + xOff - xGap, 3 * ySep + yOff + yGap), board.DevZones[2].name ),
+                new Site( new Vector2(0 * xSep + xOff - xGap, 4 * ySep + yOff + yGap), board.DevZones[2].name ),
+                new Site( new Vector2(0 * xSep + xOff - xGap, 5 * ySep + yOff + yGap), board.DevZones[2].name ),//
+                new Site( new Vector2(1 * xSep + xOff - xGap, 0 * ySep + yOff - yGap), board.DevZones[2].name ),
+                new Site( new Vector2(1 * xSep + xOff - xGap, 1 * ySep + yOff - yGap), board.DevZones[1].name ),
+                new Site( new Vector2(1 * xSep + xOff - xGap, 2 * ySep + yOff - yGap), board.DevZones[1].name ),
+                new Site( new Vector2(1 * xSep + xOff - xGap, 3 * ySep + yOff + yGap), board.DevZones[1].name ),
+                new Site( new Vector2(1 * xSep + xOff - xGap, 4 * ySep + yOff + yGap), board.DevZones[1].name ),
+                new Site( new Vector2(1 * xSep + xOff - xGap, 5 * ySep + yOff + yGap), board.DevZones[2].name ),//
+                new Site( new Vector2(2 * xSep + xOff - xGap, 0 * ySep + yOff - yGap), board.DevZones[2].name ),
+                new Site( new Vector2(2 * xSep + xOff - xGap, 1 * ySep + yOff - yGap), board.DevZones[1].name ),
+                new Site( new Vector2(2 * xSep + xOff - xGap, 2 * ySep + yOff - yGap), board.DevZones[0].name ),
+                new Site( new Vector2(2 * xSep + xOff - xGap, 3 * ySep + yOff + yGap), board.DevZones[0].name ),
+                new Site( new Vector2(2 * xSep + xOff - xGap, 4 * ySep + yOff + yGap), board.DevZones[1].name ),
+                new Site( new Vector2(2 * xSep + xOff - xGap, 5 * ySep + yOff + yGap), board.DevZones[2].name ),//
+                new Site( new Vector2(3 * xSep + xOff + xGap, 0 * ySep + yOff - yGap), board.DevZones[2].name ),
+                new Site( new Vector2(3 * xSep + xOff + xGap, 1 * ySep + yOff - yGap), board.DevZones[1].name ),
+                new Site( new Vector2(3 * xSep + xOff + xGap, 2 * ySep + yOff - yGap), board.DevZones[0].name ),
+                new Site( new Vector2(3 * xSep + xOff + xGap, 3 * ySep + yOff + yGap), board.DevZones[0].name ),
+                new Site( new Vector2(3 * xSep + xOff + xGap, 4 * ySep + yOff + yGap), board.DevZones[1].name ),
+                new Site( new Vector2(3 * xSep + xOff + xGap, 5 * ySep + yOff + yGap), board.DevZones[2].name ),//
+                new Site( new Vector2(4 * xSep + xOff + xGap, 0 * ySep + yOff - yGap), board.DevZones[2].name ),
+                new Site( new Vector2(4 * xSep + xOff + xGap, 1 * ySep + yOff - yGap), board.DevZones[1].name ),
+                new Site( new Vector2(4 * xSep + xOff + xGap, 2 * ySep + yOff - yGap), board.DevZones[1].name ),
+                new Site( new Vector2(4 * xSep + xOff + xGap, 3 * ySep + yOff + yGap), board.DevZones[1].name ),
+                new Site( new Vector2(4 * xSep + xOff + xGap, 4 * ySep + yOff + yGap), board.DevZones[1].name ),
+                new Site( new Vector2(4 * xSep + xOff + xGap, 5 * ySep + yOff + yGap), board.DevZones[2].name ),//
+                new Site( new Vector2(5 * xSep + xOff + xGap, 0 * ySep + yOff - yGap), board.DevZones[2].name ),
+                new Site( new Vector2(5 * xSep + xOff + xGap, 1 * ySep + yOff - yGap), board.DevZones[2].name ),
+                new Site( new Vector2(5 * xSep + xOff + xGap, 2 * ySep + yOff - yGap), board.DevZones[2].name ),
+                new Site( new Vector2(5 * xSep + xOff + xGap, 3 * ySep + yOff + yGap), board.DevZones[2].name ),
+                new Site( new Vector2(5 * xSep + xOff + xGap, 4 * ySep + yOff + yGap), board.DevZones[2].name ),
+                new Site( new Vector2(5 * xSep + xOff + xGap, 5 * ySep + yOff + yGap), board.DevZones[2].name )
             };
 
             board.Cards = new Card[]{

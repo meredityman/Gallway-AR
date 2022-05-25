@@ -106,23 +106,29 @@ public class BoardObject : MonoBehaviour
         return (float)numDockedCards / (float)requiredNumberOfCards;
     }
 
+    public string getDockedCardsNumberText()
+    {
+        string text = "";
+        text = string.Format("{0}/{1}", numDockedCards, requiredNumberOfCards);
+        return text;
+    }
+
     public string getScoreText()
     {
         string scoresStr = "";
-        if (numDockedCards < requiredNumberOfCards)
-        {
-            scoresStr = string.Format("{0} / {1}", numDockedCards, requiredNumberOfCards);
+        // if (numDockedCards < requiredNumberOfCards)
+        // {
+        //     scoresStr = string.Format("{0}/{1} cards placed.", numDockedCards, requiredNumberOfCards);
+        // }
+        // else
+        // {
+        foreach(var pair in scores){
+            scoresStr += string.Format("{0}: {1}\n", pair.Key.name, pair.Value);
         }
-        else
-        {
-            foreach(var pair in scores){
-                scoresStr += string.Format("{0} : {1}\n", pair.Key.name, pair.Value);
-            }
-        }
+        // }
 
         scoreKey = String.Join("", scores.OrderBy(obj => obj.Value).ToDictionary(obj => obj.Key.impactKey, obj => obj.Value).Keys.ToArray());
         scoresStr += board.ScoreTexts[scoreKey];
-        Debug.Log(scoreKey);
 
         return scoresStr;
     }

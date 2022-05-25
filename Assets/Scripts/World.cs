@@ -32,23 +32,16 @@ public class World : MonoBehaviour
         StateManager.OnStateChange -= HandleStateChange;
     }
 
-    public void OnBoardTargetDetected()
-    {
-        Debug.Log("Target Detected");
-        // Debug.Log(stateManager);
-
-        // if (stateManager.isIn(StateName.Init))
-        // {   
-        //     worldImageTarget.SetActive(false);
-        //     Debug.Log("Deactivated Target");
-        //     stateManager.goToNextState();
-        // }
-    }
-
     public void goToNextState()
     {   
         // Add security precautions
         this.stateManager.goToNextState();
+    }
+
+    public void resetWorld()
+    {   
+        // Add security precautions
+        this.stateManager.resetState();
     }
 
     // void FixedUpdate()

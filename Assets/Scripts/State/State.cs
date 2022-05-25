@@ -48,6 +48,17 @@ namespace StateLib
 			return states[this.activeState];
 		}
 
+		public void resetState()
+		{
+			Array Arr = Enum.GetValues(typeof(StateName));
+			this.activeState = (StateName)Arr.GetValue(0);
+
+			if (OnStateChange != null)
+			{
+				OnStateChange(getCurrentState());
+			}
+		}
+
 		public void goToNextState()
 		{
 			Array Arr = Enum.GetValues(typeof(StateName));
