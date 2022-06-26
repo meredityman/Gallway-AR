@@ -190,8 +190,11 @@ public class CardGO : MonoBehaviour
     }
 
     private void PositionOutOfView()
-    {
-        this.target.transform.position = new Vector3(50.0f, 50.0f, 50.0f);
+    {   
+        if (this.target)
+        {
+            this.target.transform.position = new Vector3(50.0f, 50.0f, 50.0f);
+        }
         this.transform.position = new Vector3(50.0f, 50.0f, 50.0f);
     }
 
@@ -199,6 +202,10 @@ public class CardGO : MonoBehaviour
     {
         if(newState.name == StateName.Init)
         {   
+            if (this.site)
+            {
+                LeaveSite(this.site);
+            }
             PositionOutOfView();
             EnableTarget();
         }

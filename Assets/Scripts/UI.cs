@@ -52,15 +52,10 @@ public class UI : MonoBehaviour
         button.interactable = false;
     }
 
-    public void MakeButtonInteractable()
-    {
-        button.interactable = true;
-    }
-
     void FixedUpdate()
     {
         slider.value = (float)board.getBoardCompletionPercentage();
-        if (slider.value == 1.0f)
+        if (slider.value > 0.1f)
         {
             button.interactable = true;
         }
@@ -86,6 +81,11 @@ public class UI : MonoBehaviour
         else
         {
             buttonGO.SetActive(true);
+        }
+
+        if (newState.name == StateName.Init)
+        {
+            button.interactable = true;
         }
 
 

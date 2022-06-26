@@ -68,6 +68,7 @@ public class CardsObject : MonoBehaviour
             var model = cardGO.transform.Find(String.Format("Geom/Model/{0}", imageTargetFilename));
             model.transform.localScale = Vector3.Scale(model.transform.localScale, new Vector3(printedTargetSize, printedTargetSize, printedTargetSize));
             model.transform.localRotation *= Quaternion.Euler(0, 180, 0);
+            model.transform.position = new Vector3(0.0f, 0.0f, 0.0f);
             // // model.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
             // model.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
             // model.GetComponent<MeshRenderer>().enabled = true;

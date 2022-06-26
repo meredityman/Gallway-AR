@@ -363,13 +363,29 @@ namespace BoardLib
                 new Site( new Vector2(5 * xSep + xOff + xGap, 5 * ySep + yOff + yGap), board.DevZones[2].name )
             };
 
-            board.Cards = new Card[]{
+            board.Cards = new Card[] {
+                new Card( "Exclusive Housing"   ),
+                new Card( "Exclusive Housing"   ),
+                new Card( "Exclusive Housing"   ),
+                new Card( "Exclusive Housing"   ),
+                new Card( "Exclusive Housing"   ),
+                new Card( "Exclusive Housing"   ),
+                new Card( "Exclusive Housing"   ),
+                new Card( "Exclusive Housing"   ),
                 new Card( "Exclusive Housing"   ),
                 new Card( "Exclusive Housing"   ),
                 new Card( "Low Density Housing" ),
                 new Card( "Low Density Housing" ),
                 new Card( "Low Density Housing" ),
                 new Card( "Low Density Housing" ),
+                new Card( "Low Density Housing" ),
+                new Card( "Low Density Housing" ),
+                new Card( "Low Density Housing" ),
+                new Card( "Low Density Housing" ),
+                new Card( "Low Density Housing" ),
+                new Card( "Low Density Housing" ),
+                new Card( "High Density Housing"),
+                new Card( "High Density Housing"),
                 new Card( "High Density Housing"),
                 new Card( "High Density Housing"),
                 new Card( "High Density Housing"),
@@ -381,27 +397,16 @@ namespace BoardLib
 
                 new Card( "Commercial"          ),
                 new Card( "Commercial"          ),
-                new Card( "Commercial"          ),
-                new Card( "Commercial"          ),
-                new Card( "Commercial"          ),
-                new Card( "Commercial"          ),
-                new Card( "Education"           ),
                 new Card( "Education"           ),
                 new Card( "Education"           ),
                 new Card( "Sport"               ),
                 new Card( "Sport"               ),
-                new Card( "Sport"               ),
-
-                new Card( "Public Transport"   ),
-                new Card( "Public Transport"   ),
                 new Card( "Public Transport"   ),
                 new Card( "Public Transport"   ),
                 new Card( "Renewable Energy"  ),
                 new Card( "Renewable Energy"  ),
-                new Card( "Renewable Energy"  ),
-                new Card( "Renewable Energy"  ),
-                new Card( "Active transport"    ),
-                new Card( "Active transport"    )
+                new Card( "Active Transport"    ),
+                new Card( "Active Transport"    )
             };
 
         return board;

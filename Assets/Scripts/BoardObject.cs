@@ -141,10 +141,10 @@ public class BoardObject : MonoBehaviour
         File.WriteAllText(jsonFile, json);
     }
 
-    public bool IsBoardFull()
-    {
-        return numDockedCards == requiredNumberOfCards;
-    }
+    // public bool IsBoardFull()
+    // {
+    //     return numDockedCards == requiredNumberOfCards;
+    // }
 
     // Update is called once per frame
     void Update()
